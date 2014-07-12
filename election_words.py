@@ -175,35 +175,6 @@ print '\n'
 for i in range(0,5):
 	print sorted(words, key=words.get)[-(i+1)]
 
-# print data
-
-# for key in words:
-# 	if words[key][1] != []:
-# 		for i in range(0,5):
-# 			words[key][1][i].append(words[key][0]*(5-(i+5)%5))
-
-# print words
-
-
-# query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
-# 				 'per_page': 5,
-# 				 'entity_type': 'legislator',
-# 		   		 'entity_value': 'A000055',
-# 	  			 'sort': 'count desc'
-# 				}
-
-# endpoint = "http://capitolwords.org/api/phrases.json"
-# response = requests.get(endpoint, params=query_params)
-# data = response.json()
-# words = [(data[i]['ngram'],data[i]['count']) for i in range(len(data))]
-
-
-
-
-
-# print data
-
-# print words
 
 
 
