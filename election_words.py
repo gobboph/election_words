@@ -68,14 +68,14 @@ all_states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorad
 
 # Momentarily commenitng out to experiment
 
-# all_dict = {x: {} for x in all_states}
+all_dict = {x: {} for x in all_states}
 
-# all_dict_new = {x: {} for x in all_states}
+all_dict_new = {x: {} for x in all_states}
 
-# for x in all_states:
-# 	for key in name_count:
-# 		if name_count[key][0] == x:
-# 			all_dict[x][key] = name_count[key][1]
+for x in all_states:
+	for key in name_count:
+		if name_count[key][0] == x:
+			all_dict[x][key] = name_count[key][1]
 
 
 #print all_dict['California']
@@ -85,40 +85,75 @@ all_states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorad
 
 # Momentarily commenitng out to experiment
 
-# n = 0
+n = 0
 
-# for x in all_states:
-# 	for key in all_dict[x]:
-# 		if key!='':
-# 			query_params2 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
-# 						 	'firstname' : key.split()[0],
-# 						  	'lastname' : key.split()[-1]
-# 							}
-# 			endpoint2 = "http://services.sunlightlabs.com/api/legislators.get.json"
-# 			resp2 = requests.get(endpoint2, params = query_params2)
-# 			if resp2.content == "No Such Object Exists" or resp2.content == "Multiple Legislators Returned":
-# 				n+=1
-# 				print '----------- not resolved' +' '+ str(n)
-# 				continue
-# 			else:
-# 				data2 = resp2.json()
-# 				# print data2['response']['legislator']['bioguide_id']
-# 				all_dict_new[x][key]= [all_dict[x][key], data2['response']['legislator']['bioguide_id']]
+for x in all_states:
+	for key in all_dict[x]:
+		if key!='':
+			query_params2 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
+						 	'firstname' : key.split()[0],
+						  	'lastname' : key.split()[-1]
+							}
+			endpoint2 = "http://services.sunlightlabs.com/api/legislators.get.json"
+			resp2 = requests.get(endpoint2, params = query_params2)
+			if resp2.content == "No Such Object Exists" or resp2.content == "Multiple Legislators Returned":
+				n+=1
+				print '----------- not resolved' +' '+ str(n)
+				continue
+			else:
+				data2 = resp2.json()
+				# print data2['response']['legislator']['bioguide_id']
+				all_dict_new[x][key]= [all_dict[x][key], data2['response']['legislator']['bioguide_id']]
 		
 
 # print all_dict_new['Alabama']
 
 
-# Alabama = {}
-# Alabama_new = {}
+'''Finding the top words'''
+
+# #words = {key: [Alabama_new[key][0]] for key in Alabama_new}#{} for key in Alabama_new} #
+
+# #words = {Alabama_new[key][0]: {} for key in Alabama_new}
+
+all_words = {state: {} for x in all_states}
+
+for state in all_dict_new:
+	for key in all_dict_new[state]:
+		query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
+						 'per_page': 5,
+						 'entity_type': 'legislator',
+		   				 'entity_value': str(all_dict_new[state][key][1]),
+		   				 'sort': 'count desc'
+			 			}
+		endpoint = "http://capitolwords.org/api/phrases.json"
+		response = requests.get(endpoint, params=query_params)
+		data = response.json()
+		for i in range(len(data)):
+			if data[i]['ngram'] not in all_words[state]:
+				all_words[state][data[i]['ngram']] = give_score(all_dict_new[state][key][0],i,5)#data[i]['count']]
+			else:
+				all_words[state][data[i]['ngram']] += give_score(all_dict_new[state][key][0],i,5)
+
+
+print all_words['Alabama']
+
+# print sorted(words, key=words.get)
+# print '\n'
+
+# for i in range(0,5):
+# 	print sorted(words, key=words.get)[-(i+1)]
+
+
+# Cali = {}
+# Cali_new = {}
 
 # for key in name_count:
-# 	if name_count[key][0] == 'Alabama':
-# 		Alabama[key] = name_count[key][1]
+# 	if name_count[key][0] == 'California':
+# 		Cali[key] = name_count[key][1]
 
 # n=0
 
-# for key in Alabama:
+# for key in Cali:
 # 	if key!='':
 # 		query_params2 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
 # 						 'firstname' : key.split()[0],
@@ -133,27 +168,19 @@ all_states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorad
 # 		else:
 # 			data2 = resp2.json()
 # 			# print data2['response']['legislator']['bioguide_id']
-# 			Alabama_new[key]= [Alabama[key], data2['response']['legislator']['bioguide_id']]
+# 			Cali_new[key]= [Cali[key], data2['response']['legislator']['bioguide_id']]
 		
-# # print len(Alabama)
-
-# # print len(Alabama_new)
-
-# # print Alabama_new
 
 # '''Finding the top words'''
 
-# #words = {key: [Alabama_new[key][0]] for key in Alabama_new}#{} for key in Alabama_new} #
-
-# #words = {Alabama_new[key][0]: {} for key in Alabama_new}
 
 # words = {}
 
-# for key in Alabama_new:
+# for key in Cali_new:
 # 	query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
 # 					 'per_page': 5,
 # 					 'entity_type': 'legislator',
-# 		   			 'entity_value': str(Alabama_new[key][1]),
+# 		   			 'entity_value': str(Cali_new[key][1]),
 # 		   			 'sort': 'count desc'
 # 		 			}
 
@@ -162,90 +189,18 @@ all_states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorad
 # 	data = response.json()
 # 	for i in range(len(data)):
 # 		if data[i]['ngram'] not in words:
-# 			words[data[i]['ngram']] = give_score(Alabama_new[key][0],i,5)#data[i]['count']]
+# 			words[data[i]['ngram']] = give_score(Cali_new[key][0],i,5)#data[i]['count']]
 # 		else:
-# 			words[data[i]['ngram']] += give_score(Alabama_new[key][0],i,5)
+# 			words[data[i]['ngram']] += give_score(Cali_new[key][0],i,5)
 
 
-# print words
+# # print words
 
 # print sorted(words, key=words.get)
 # print '\n'
 
 # for i in range(0,5):
 # 	print sorted(words, key=words.get)[-(i+1)]
-
-
-Cali = {}
-Cali_new = {}
-
-for key in name_count:
-	if name_count[key][0] == 'California':
-		Cali[key] = name_count[key][1]
-
-n=0
-
-for key in Cali:
-	if key!='':
-		query_params2 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
-						 'firstname' : key.split()[0],
-					  	'lastname' : key.split()[-1]
-						}
-		endpoint2 = "http://services.sunlightlabs.com/api/legislators.get.json"
-		resp2 = requests.get(endpoint2, params = query_params2)
-		if resp2.content == "No Such Object Exists" or resp2.content == "Multiple Legislators Returned":
-			n+=1
-			print '----------- not resolved' +' '+ str(n)
-			continue
-		else:
-			data2 = resp2.json()
-			# print data2['response']['legislator']['bioguide_id']
-			Cali_new[key]= [Cali[key], data2['response']['legislator']['bioguide_id']]
-		
-# print len(Alabama)
-
-# print len(Alabama_new)
-
-# print Alabama_new
-
-def give_score(times, pos, out_of):
-	'''give a score to each word depending on how many times one person has been in congress, the position\
-	of the words in his counting and how many words I consider from the highest recurring'''
-	return times*(out_of-(pos+out_of)%out_of)
-
-'''Finding the top words'''
-
-#words = {key: [Alabama_new[key][0]] for key in Alabama_new}#{} for key in Alabama_new} #
-
-#words = {Alabama_new[key][0]: {} for key in Alabama_new}
-
-words = {}
-
-for key in Cali_new:
-	query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
-					 'per_page': 5,
-					 'entity_type': 'legislator',
-		   			 'entity_value': str(Cali_new[key][1]),
-		   			 'sort': 'count desc'
-		 			}
-
-	endpoint = "http://capitolwords.org/api/phrases.json"
-	response = requests.get(endpoint, params=query_params)
-	data = response.json()
-	for i in range(len(data)):
-		if data[i]['ngram'] not in words:
-			words[data[i]['ngram']] = give_score(Cali_new[key][0],i,5)#data[i]['count']]
-		else:
-			words[data[i]['ngram']] += give_score(Cali_new[key][0],i,5)
-
-
-print words
-
-print sorted(words, key=words.get)
-print '\n'
-
-for i in range(0,5):
-	print sorted(words, key=words.get)[-(i+1)]
 
 
 
