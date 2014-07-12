@@ -128,6 +128,11 @@ for key in Alabama:
 			# print data2['response']['legislator']['bioguide_id']
 			Alabama_new[key]= [Alabama[key], data2['response']['legislator']['bioguide_id']]
 		
+print len(Alabama)
+
+print len(Alabama_new)
+
+print Alabama_new
 
 
 
