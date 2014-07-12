@@ -43,7 +43,21 @@ for x in all_of_them:
 			name_count[name] = x[name]
 			name_count[name].append(1)
 
-print name_count
+print len(name_count)
+
+
+
+all_states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', \
+		'Georgia','Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Lousiana', 'Maine', 'Maryland', \
+		'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New_Hampshire', \
+		'New_Jersey', 'New_Mexico', 'New_York', 'North_Carolina', 'North_Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', \
+		'Rhode_Island', 'South_Carolina', 'South_Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', \
+		'West_Virginia', 'Wisconsin', 'Wyoming']
+
+
+for key in name_count:
+	if name_count[key][0] == 'Pennsylvania':
+		print key + ' ' + str(name_count[key][1])
 
 
 
