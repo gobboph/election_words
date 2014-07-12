@@ -130,33 +130,47 @@ for key in Alabama:
 			# print data2['response']['legislator']['bioguide_id']
 			Alabama_new[key]= [Alabama[key], data2['response']['legislator']['bioguide_id']]
 		
-print len(Alabama)
+# print len(Alabama)
 
-print len(Alabama_new)
+# print len(Alabama_new)
 
-print Alabama_new
+# print Alabama_new
 
 
 
-# '''Finding the top words'''
+'''Finding the top words'''
+
+words = {key: [Alabama_new[key][0]] for key in Alabama_new}
+
+for key in Alabama_new:
+	query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
+					 'per_page': 1,
+					 'entity_type': 'legislator',
+		   			 'entity_value': str(Alabama_new[key][1]),
+		   			 'sort': 'count desc'
+		 			}
+
+	endpoint = "http://capitolwords.org/api/phrases.json"
+	response = requests.get(endpoint, params=query_params)
+	data = response.json()
+	words[key].append([(data[i]['ngram'],data[i]['count']) for i in range(len(data))])
 
 # query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
 # 				 'per_page': 5,
 # 				 'entity_type': 'legislator',
-# 		   		 'entity_value': "D000604",
-# 		   		 'sort': 'count desc'
-# 		 		}
+# 		   		 'entity_value': 'B001289',
+# 	  			 'sort': 'count desc'
+# 				}
 
 # endpoint = "http://capitolwords.org/api/phrases.json"
-
 # response = requests.get(endpoint, params=query_params)
 # data = response.json()
-
 # words = [(data[i]['ngram'],data[i]['count']) for i in range(len(data))]
 
 
+# print data
 
-# print words
+print words
 
 
 
