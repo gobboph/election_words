@@ -61,14 +61,16 @@ all_states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorad
 		'Rhode_Island', 'South_Carolina', 'South_Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', \
 		'West_Virginia', 'Wisconsin', 'Wyoming']
 
-all_dict = {x: {} for x in all_states}
+# Momentarily commenitng out to experiment
 
-all_dict_new = {x: {} for x in all_states}
+# all_dict = {x: {} for x in all_states}
 
-for x in all_states:
-	for key in name_count:
-		if name_count[key][0] == x:
-			all_dict[x][key] = name_count[key][1]
+# all_dict_new = {x: {} for x in all_states}
+
+# for x in all_states:
+# 	for key in name_count:
+# 		if name_count[key][0] == x:
+# 			all_dict[x][key] = name_count[key][1]
 
 
 #print all_dict['California']
@@ -76,30 +78,56 @@ for x in all_states:
 
 '''First API call to get the bioguide_id's. I keep in the new dictionary only the names I have ID's of.'''
 
-n = 0
+# Momentarily commenitng out to experiment
 
-for x in all_states:
-	for key in all_dict[x]:
-		if key!='':
-			query_params2 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
-						 	'firstname' : key.split()[0],
-						  	'lastname' : key.split()[-1]
-							}
-			endpoint2 = "http://services.sunlightlabs.com/api/legislators.get.json"
-			resp2 = requests.get(endpoint2, params = query_params2)
-			if resp2.content == "No Such Object Exists" or resp2.content == "Multiple Legislators Returned":
-				n+=1
-				print '----------- not resolved' +' '+ str(n)
-				continue
-			else:
-				data2 = resp2.json()
-				# print data2['response']['legislator']['bioguide_id']
-				all_dict_new[x][key]= [all_dict[x][key], data2['response']['legislator']['bioguide_id']]
+# n = 0
+
+# for x in all_states:
+# 	for key in all_dict[x]:
+# 		if key!='':
+# 			query_params2 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
+# 						 	'firstname' : key.split()[0],
+# 						  	'lastname' : key.split()[-1]
+# 							}
+# 			endpoint2 = "http://services.sunlightlabs.com/api/legislators.get.json"
+# 			resp2 = requests.get(endpoint2, params = query_params2)
+# 			if resp2.content == "No Such Object Exists" or resp2.content == "Multiple Legislators Returned":
+# 				n+=1
+# 				print '----------- not resolved' +' '+ str(n)
+# 				continue
+# 			else:
+# 				data2 = resp2.json()
+# 				# print data2['response']['legislator']['bioguide_id']
+# 				all_dict_new[x][key]= [all_dict[x][key], data2['response']['legislator']['bioguide_id']]
 		
 
 # print all_dict_new['Alabama']
 
 
+Alabama = {}
+Alabama_new = {}
+
+for key in name_count:
+	if name_count[key][0] == 'Alabama':
+		Alabama[key] == name_count[key][1]
+
+for key in Alabama:
+	if key!='':
+		query_params2 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
+						 'firstname' : key.split()[0],
+					  	'lastname' : key.split()[-1]
+						}
+		endpoint2 = "http://services.sunlightlabs.com/api/legislators.get.json"
+		resp2 = requests.get(endpoint2, params = query_params2)
+		if resp2.content == "No Such Object Exists" or resp2.content == "Multiple Legislators Returned":
+			n+=1
+			print '----------- not resolved' +' '+ str(n)
+			continue
+		else:
+			data2 = resp2.json()
+			# print data2['response']['legislator']['bioguide_id']
+			Alabama_new[key]= [Alabama[key], data2['response']['legislator']['bioguide_id']]
+		
 
 
 
