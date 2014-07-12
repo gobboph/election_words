@@ -147,7 +147,7 @@ for key in Alabama_new:
 					 'per_page': 1,
 					 'entity_type': 'legislator',
 		   			 'entity_value': str(Alabama_new[key][1]),
-		   			 'sort': 'count desc'
+		   			 'sort': 'tfidf desc' 'count desc'
 		 			}
 
 	endpoint = "http://capitolwords.org/api/phrases.json"
