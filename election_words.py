@@ -43,7 +43,7 @@ for x in all_of_them:
 			name_count[name] = x[name]
 			name_count[name].append(1)
 
-print len(name_count)
+# print len(name_count)
 
 
 
@@ -54,10 +54,52 @@ all_states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorad
 		'Rhode_Island', 'South_Carolina', 'South_Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', \
 		'West_Virginia', 'Wisconsin', 'Wyoming']
 
+Penn = {}
 
 for key in name_count:
 	if name_count[key][0] == 'Pennsylvania':
-		print key + ' ' + str(name_count[key][1])
+		Penn[key] = name_count[key][1]
+
+# print Penn
+
+# for key in Penn:
+# 	if Penn[key] >= 7:
+# 		print key + ' ' + str(Penn[key])
+
+
+query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
+				 'per_page': 5,
+				 'entity_type': 'legislator',
+		   		 'entity_value': "D000604",
+		   		 'sort': 'count desc'
+		 		}
+
+endpoint = "http://capitolwords.org/api/phrases.json"
+
+response = requests.get(endpoint, params=query_params)
+data = response.json()
+
+words = [(data[i]['ngram'],data[i]['count']) for i in range(len(data))]
+
+# print words
+
+
+query_params2 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
+				  # 'firstname' : 'Nancy',
+				  'lastname' : 'Pelosi'
+				}
+
+endpoint2 = "http://services.sunlightlabs.com/api/legislators.get.json"
+
+resp2 = requests.get(endpoint2, params = query_params2)
+data2 = resp2.json()
+
+# with open('file.txt','w') as f:
+# 	f.write(data2)
+
+print data2['response']['legislator']['bioguide_id']
+
+
 
 
 
