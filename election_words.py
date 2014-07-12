@@ -109,7 +109,9 @@ Alabama_new = {}
 
 for key in name_count:
 	if name_count[key][0] == 'Alabama':
-		Alabama[key] == name_count[key][1]
+		Alabama[key] = name_count[key][1]
+
+n=0
 
 for key in Alabama:
 	if key!='':
