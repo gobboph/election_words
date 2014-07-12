@@ -115,7 +115,7 @@ for x in all_states:
 
 # #words = {Alabama_new[key][0]: {} for key in Alabama_new}
 
-all_words = {state: {} for x in all_states}
+all_words = {state: {} for state in all_states}
 
 for state in all_dict_new:
 	for key in all_dict_new[state]:
