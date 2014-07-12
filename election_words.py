@@ -89,17 +89,13 @@ for x in all_states:
 			resp2 = requests.get(endpoint2, params = query_params2)
 			if resp2.content == "No Such Object Exists" or resp2.content == "Multiple Legislators Returned":
 				n+=1
-				print '----------- not resolved' +' '+ str(n) 
-				# del Cali_new[key]
+				print '----------- not resolved' +' '+ str(n)
 				continue
 			else:
 				data2 = resp2.json()
 				# print data2['response']['legislator']['bioguide_id']
 				all_dict_new[x][key]= [all_dict[x][key], data2['response']['legislator']['bioguide_id']]
-		# else:
-			# del Cali_new[key]
-
-# print Cali_new
+		
 
 # print all_dict_new['Alabama']
 
