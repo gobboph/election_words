@@ -136,29 +136,59 @@ for key in Alabama:
 
 # print Alabama_new
 
-
+def give_score(times, pos, out_of):
+	'''give a score to each word depending on how many times one person has been in congress, the position\
+	of the words in his counting and how many words I consider from the highest recurring'''
+	return times*(out_of-(pos+out_of)%out_of)
 
 '''Finding the top words'''
 
-words = {key: [Alabama_new[key][0]] for key in Alabama_new}
+#words = {key: [Alabama_new[key][0]] for key in Alabama_new}#{} for key in Alabama_new} #
+
+#words = {Alabama_new[key][0]: {} for key in Alabama_new}
+
+words = {}
 
 for key in Alabama_new:
 	query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
-					 'per_page': 1,
+					 'per_page': 5,
 					 'entity_type': 'legislator',
 		   			 'entity_value': str(Alabama_new[key][1]),
-		   			 'sort': 'tfidf desc' 'count desc'
+		   			 'sort': 'count desc'
 		 			}
 
 	endpoint = "http://capitolwords.org/api/phrases.json"
 	response = requests.get(endpoint, params=query_params)
 	data = response.json()
-	words[key].append([(data[i]['ngram'],data[i]['count']) for i in range(len(data))])
+	for i in range(len(data)):
+		if data[i]['ngram'] not in words:
+			words[data[i]['ngram']] = give_score(Alabama_new[key][0],i,5)#data[i]['count']]
+		else:
+			words[data[i]['ngram']] += give_score(Alabama_new[key][0],i,5)
+
+
+print words
+
+print sorted(words, key=words.get)
+print '\n'
+
+for i in range(0,5):
+	print sorted(words, key=words.get)[-(i+1)]
+
+# print data
+
+# for key in words:
+# 	if words[key][1] != []:
+# 		for i in range(0,5):
+# 			words[key][1][i].append(words[key][0]*(5-(i+5)%5))
+
+# print words
+
 
 # query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
 # 				 'per_page': 5,
 # 				 'entity_type': 'legislator',
-# 		   		 'entity_value': 'B001289',
+# 		   		 'entity_value': 'A000055',
 # 	  			 'sort': 'count desc'
 # 				}
 
@@ -168,10 +198,41 @@ for key in Alabama_new:
 # words = [(data[i]['ngram'],data[i]['count']) for i in range(len(data))]
 
 
+
+
+
 # print data
 
-print words
+# print words
 
+
+
+# query_params3 = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
+# 				 # 'per_page': 5,
+# 				 # 'page': 2,
+# 				 'phrase': 'today',
+# 				 # 'entity_type': 'state',
+# 		   # 		 'entity_value': 'AL',
+# 	  			 # 'sort':'count desc'
+# 				}
+
+# endpoint = "http://capitolwords.org/api/phrases/state.json"
+# response3 = requests.get(endpoint, params=query_params3)
+# data3 = response3.json()
+# # words3 = [(data3[i]['ngram'],data3[i]['tfidf']) for i in range(len(data3))]
+
+
+# for i in range(len(data3['results'])):
+# 	if data3['results'][i]['state'] == 'AL':
+# 		print data3['results'][i]
+
+# print len(words3)
+
+# for x in range(len(words3)):
+# 	if words3[x][0] == 'count':
+# 		print words3[x][1]
+# 	# else:
+# 	# 	print '------- could not find it'
 
 
 
