@@ -116,7 +116,7 @@ all_words = {state: {} for state in all_states}
 for state in all_dict_new:
 	for key in all_dict_new[state]:
 		query_params = { 'apikey': '2cd8dea668b840f989b145e88cb2be80',
-						 'per_page': 5,
+						 'per_page': 10,
 						 'entity_type': 'legislator',
 		   				 'entity_value': str(all_dict_new[state][key][1]),
 		   				 'sort': 'tfidf desc'
@@ -142,9 +142,15 @@ print '\n'
 
 with open('words.txt', 'w') as f:
 	for state in all_states:
-		f.write(state)
-		for i in range(0,5):
-			print sorted(all_words[state], key=all_words[state].get)[-(i+1)]
+		f.write(state+'\n')
+		if len(all_words[state]) >= 5:
+			for i in range(0,5):
+				f.write(sorted(all_words[state], key=all_words[state].get)[-(i+1)]+'\n')
+		else:
+			for i in range(len(all_words[state])):
+				f.write(sorted(all_words[state], key=all_words[state].get)[-(i+1)]+'\n')
+		f.write(', '.join(sorted(all_words[state], key=all_words[state].get)))
+		f.write('\n\n\n')
 
 
 # Ala = {}
@@ -196,6 +202,14 @@ with open('words.txt', 'w') as f:
 # 		else:
 # 			words[data[i]['ngram']] += give_score(Ala_new[key][0],i,5)
 
+
+# with open('words.txt', 'w') as f:
+# 	#for state in all_states:
+# 	f.write('New York\n')
+# 	for i in range(0,5):
+# 		f.write(sorted(words, key=words.get)[-(i+1)] + '\n')
+# 	f.write(' '.join(sorted(words, key=words.get)))
+# 	f.write('\n')
 
 # # print words
 
