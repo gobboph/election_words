@@ -3,11 +3,25 @@ body {
     font-family: "open sans" sans-serif;
 }
 
-footer {
+/*footer {
 	padding-top: 80px;
+	bottom: 0;
+	position:absolute;
+}*/
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
+	width:960px;
 }
 
 .container {
    margin:0 auto; /* this will center the page */
    width:960px; /*  use your width here */
+}
+
+.footer, .push {
+	height: 155px; /* .push must be the same height as .footer */
 }
