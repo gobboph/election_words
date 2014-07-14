@@ -137,11 +137,14 @@ for state in all_dict_new:
 
 # print all_words['New_York']
 
-print sorted(all_words['Texas'], key=all_words['Texas'].get)
+print sorted(all_words['Alaska'], key=all_words['Alaska'].get)
 print '\n'
 
-for i in range(0,5):
-	print sorted(all_words['Texas'], key=all_words['Texas'].get)[-(i+1)]
+with open('words.txt', 'w') as f:
+	for state in all_states:
+		f.write(state)
+		for i in range(0,5):
+			print sorted(all_words[state], key=all_words[state].get)[-(i+1)]
 
 
 # Ala = {}
