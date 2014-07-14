@@ -1,8 +1,13 @@
 body {
     padding: 50px;
-    font-family: sans-serif;
+    font-family: "open sans" sans-serif;
 }
 
 footer {
 	padding-top: 80px;
+}
+
+.container {
+   margin:0 auto; /* this will center the page */
+   width:960px; /*  use your width here */
 }
