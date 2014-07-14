@@ -140,17 +140,35 @@ for state in all_dict_new:
 print sorted(all_words['Alaska'], key=all_words['Alaska'].get)
 print '\n'
 
+
 with open('words.txt', 'w') as f:
 	for state in all_states:
-		f.write(state+'\n')
-		if len(all_words[state]) >= 5:
-			for i in range(0,5):
-				f.write(sorted(all_words[state], key=all_words[state].get)[-(i+1)]+'\n')
+		f.write(state+' ')
+		if len(all_words[state]) >= 10:
+			for i in range(10):
+				f.write(sorted(all_words[state], key=all_words[state].get)[-(i+1)]+' ')
+			f.write('\n')
 		else:
 			for i in range(len(all_words[state])):
-				f.write(sorted(all_words[state], key=all_words[state].get)[-(i+1)]+'\n')
-		f.write(', '.join(sorted(all_words[state], key=all_words[state].get)))
-		f.write('\n\n\n')
+				f.write(sorted(all_words[state], key=all_words[state].get)[-(i+1)]+' ')
+			for i in range(10-len(all_words[state])):
+				f.write('null ')
+			f.write('\n')
+		# f.write(', '.join(sorted(all_words[state], key=all_words[state].get)))
+		# f.write('\n\n\n')
+
+
+# with open('words.txt', 'w') as f:
+# 	for state in all_states:
+# 		f.write(state+'\n')
+# 		if len(all_words[state]) >= 5:
+# 			for i in range(0,5):
+# 				f.write(sorted(all_words[state], key=all_words[state].get)[-(i+1)]+'\n')
+# 		else:
+# 			for i in range(len(all_words[state])):
+# 				f.write(sorted(all_words[state], key=all_words[state].get)[-(i+1)]+'\n')
+# 		f.write(', '.join(sorted(all_words[state], key=all_words[state].get)))
+# 		f.write('\n\n\n')
 
 
 # Ala = {}
